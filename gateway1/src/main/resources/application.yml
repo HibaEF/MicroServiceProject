@@ -1,0 +1,34 @@
+
+server:
+  port: '8092'
+  
+      
+eureka:
+  client:
+    serverUrl:
+      defaultZone: http://discovery:8761/eureka-server/
+    register-with-eureka: false
+      
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+     routes:
+     - id: facturemodule
+       uri: lb://facture-service
+       predicates : 
+       - Path=/api/factures/**
+     - id: produitmodule
+       uri: lb://produit-service
+       predicates : 
+       - Path=/produit/**
+     - id: stockmodule
+       uri: lb://stock-service
+       predicates : 
+       - Path=/stock/**
+     
+       
+  
+        
+       

@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: sa
+    url: jdbc:h2:file:~/test
+    password: ''
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  application:
+    name: facture-service
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+eureka:
+  client:
+    serviceUrl:
+      defaulZone: http://discovery:8761/eureka-server/
+server:
+  port: '8089'
+  
+
