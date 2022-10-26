@@ -1,0 +1,72 @@
+version: "2.7.4"
+services:
+
+  discovery:
+    container_name: eurekaserver-0.0.1
+    build: C:\Users\LEGION\Desktop\iba\EurekaServer
+  
+    restart: always
+    container_name: eurekaserver-0.0.1
+    image: eurekaserver-0.0.1
+    ports:
+      - "8761:8761"
+  
+  gestionfacture-0.0.1 :
+    container_name: gestionfacture-0.0.1
+    build: 
+      context: C:\Users\LEGION\Documents\GitHub\GestionMagasinMicroServices\Facture\gestionfacture
+      dockerfile: Dockerfile
+    
+    ports:
+      - "8089:8089"
+    links:
+      - discovery
+  
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka-server
+
+  productmicroservice-0.0.1	:
+      container_name: productmicroservice-0.0.1	
+      build: C:\Users\LEGION\Desktop\iba\ProductMicroservice
+      ports:
+        - "8083:8083"
+
+     
+      links:
+      - discovery
+      hostname: productmicroservice-0.0.1
+      restart: always
+      environment:
+        - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka-server
+
+  stock-service-0.0.1:
+    container_name: stock-service-0.0.1
+    build: C:\Users\LEGION\Documents\GitHub\Stock-Service-
+    ports:
+      - "8082:8082"
+    
+    links:
+      - discovery
+    hostname: stock-service-0.0.1
+    restart: always
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka-server
+
+  apigateway:
+    container_name: gateway1-0.0.1
+    build: C:\Users\LEGION\Desktop\iba\gateway1
+    ports:
+      - "8092:8092"
+   
+      
+    hostname: gateway1-0.0.1
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka-server
+    image: "gateway1-0.0.1"
+    restart: always
+    links:
+      - discovery
+      - stock-service-0.0.1
+      - productmicroservice-0.0.1
+      - gestionfacture-0.0.1
+
